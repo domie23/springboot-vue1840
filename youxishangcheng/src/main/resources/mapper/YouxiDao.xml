@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.YouxiDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.youxi_name as youxiName
+        ,a.youxi_uuid_number as youxiUuidNumber
+        ,a.youxi_photo as youxiPhoto
+        ,a.youxi_types as youxiTypes
+        ,a.youxi_zuidipeizhi as youxiZuidipeizhi
+        ,a.youxi_tuijianpeizhi as youxiTuijianpeizhi
+        ,a.youxi_kaifashang as youxiKaifashang
+        ,a.youxi_yuyan as youxiYuyan
+        ,a.youxi_kongjian as youxiKongjian
+        ,a.youxi_shoufa as youxiShoufa
+        ,a.youxi_address as youxiAddress
+        ,a.youxi_price as youxiPrice
+        ,a.youxi_old_money as youxiOldMoney
+        ,a.youxi_new_money as youxiNewMoney
+        ,a.youxi_clicknum as youxiClicknum
+        ,a.youxi_content as youxiContent
+        ,a.shangxia_types as shangxiaTypes
+        ,a.youxi_delete as youxiDelete
+        ,a.create_time as createTime
+    </sql>
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.YouxiView" >
+        SELECT
+        <include refid="Base_Column_List" />
+
+--         级联表的字段
+
+        FROM youxi  a
+
+        <where>
+            <if test="params.ids != null">
+                and a.id in
+                <foreach item="item" index="index" collection="params.ids" open="(" separator="," close=")">
+                #{item}
+                </foreach>
+            </if>
+            <if test=" params.youxiName != '' and params.youxiName != null and params.youxiName != 'null' ">
+                and a.youxi_name like CONCAT('%',#{params.youxiName},'%')
+            </if>
+            <if test=" params.youxiUuidNumber != '' and params.youxiUuidNumber != null and params.youxiUuidNumber != 'null' ">
+                and a.youxi_uuid_number like CONCAT('%',#{params.youxiUuidNumber},'%')
+            </if>
+            <if test="params.youxiTypes != null and params.youxiTypes != ''">
+                and a.youxi_types = #{params.youxiTypes}
+            </if>
+            <if test=" params.youxiZuidipeizhi != '' and params.youxiZuidipeizhi != null and params.youxiZuidipeizhi != 'null' ">
+                and a.youxi_zuidipeizhi like CONCAT('%',#{params.youxiZuidipeizhi},'%')
+            </if>
+            <if test=" params.youxiTuijianpeizhi != '' and params.youxiTuijianpeizhi != null and params.youxiTuijianpeizhi != 'null' ">
+                and a.youxi_tuijianpeizhi like CONCAT('%',#{params.youxiTuijianpeizhi},'%')
+            </if>
+            <if test=" params.youxiKaifashang != '' and params.youxiKaifashang != null and params.youxiKaifashang != 'null' ">
+                and a.youxi_kaifashang like CONCAT('%',#{params.youxiKaifashang},'%')
+            </if>
+            <if test=" params.youxiYuyan != '' and params.youxiYuyan != null and params.youxiYuyan != 'null' ">
+                and a.youxi_yuyan like CONCAT('%',#{params.youxiYuyan},'%')
+            </if>
+            <if test=" params.youxiKongjian != '' and params.youxiKongjian != null and params.youxiKongjian != 'null' ">
+                and a.youxi_kongjian like CONCAT('%',#{params.youxiKongjian},'%')
+            </if>
+            <if test=" params.youxiShoufa != '' and params.youxiShoufa != null and params.youxiShoufa != 'null' ">
+                and a.youxi_shoufa like CONCAT('%',#{params.youxiShoufa},'%')
+            </if>
+            <if test=" params.youxiAddress != '' and params.youxiAddress != null and params.youxiAddress != 'null' ">
+                and a.youxi_address like CONCAT('%',#{params.youxiAddress},'%')
+            </if>
+            <if test="params.youxiPriceStart != null and params.youxiPriceStart != ''">
+                <![CDATA[  and a.youxi_price >= #{params.youxiPriceStart}   ]]>
+            </if>
+            <if test="params.youxiPriceEnd != null and params.youxiPriceEnd != ''">
+                <![CDATA[  and a.youxi_price <= #{params.youxiPriceEnd}   ]]>
+            </if>
+             <if test="params.youxiPrice != null and params.youxiPrice != ''">
+                and a.youxi_price = #{params.youxiPrice}
+             </if>
+            <if test="params.youxiOldMoneyStart != null ">
+                <![CDATA[  and a.youxi_old_money >= #{params.youxiOldMoneyStart}   ]]>
+            </if>
+            <if test="params.youxiOldMoneyEnd != null ">
+                <![CDATA[  and a.youxi_old_money <= #{params.youxiOldMoneyEnd}   ]]>
+            </if>
+            <if test="params.youxiNewMoneyStart != null ">
+                <![CDATA[  and a.youxi_new_money >= #{params.youxiNewMoneyStart}   ]]>
+            </if>
+            <if test="params.youxiNewMoneyEnd != null ">
+                <![CDATA[  and a.youxi_new_money <= #{params.youxiNewMoneyEnd}   ]]>
+            </if>
+            <if test="params.youxiClicknumStart != null and params.youxiClicknumStart != ''">
+                <![CDATA[  and a.youxi_clicknum >= #{params.youxiClicknumStart}   ]]>
+            </if>
+            <if test="params.youxiClicknumEnd != null and params.youxiClicknumEnd != ''">
+                <![CDATA[  and a.youxi_clicknum <= #{params.youxiClicknumEnd}   ]]>
+            </if>
+             <if test="params.youxiClicknum != null and params.youxiClicknum != ''">
+                and a.youxi_clicknum = #{params.youxiClicknum}
+             </if>
+            <if test=" params.youxiContent != '' and params.youxiContent != null and params.youxiContent != 'null' ">
+                and a.youxi_content like CONCAT('%',#{params.youxiContent},'%')
+            </if>
+            <if test="params.shangxiaTypes != null and params.shangxiaTypes != ''">
+                and a.shangxia_types = #{params.shangxiaTypes}
+            </if>
+            <if test="params.youxiDeleteStart != null and params.youxiDeleteStart != ''">
+                <![CDATA[  and a.youxi_delete >= #{params.youxiDeleteStart}   ]]>
+            </if>
+            <if test="params.youxiDeleteEnd != null and params.youxiDeleteEnd != ''">
+                <![CDATA[  and a.youxi_delete <= #{params.youxiDeleteEnd}   ]]>
+            </if>
+             <if test="params.youxiDelete != null and params.youxiDelete != ''">
+                and a.youxi_delete = #{params.youxiDelete}
+             </if>
+
+        </where>
+
+        order by a.${params.orderBy} desc 
+    </select>
+
+</mapper>
